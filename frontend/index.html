@@ -1,0 +1,1136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Yashvi Voice Bot — Professional</title>
+  <style>
+    :root {
+      --bg-primary: #000000;
+      --bg-secondary: #0a0a0a;
+      --bg-tertiary: #141414;
+      --bg-card: #1a1a1a;
+      --text-primary: #ffffff;
+      --text-secondary: #b3b3b3;
+      --text-muted: #666666;
+      --accent: #ffffff;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-light: rgba(255, 255, 255, 0.12);
+      --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.8);
+      --shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.9);
+      --shadow-lg: 0 20px 40px -5px rgba(0, 0, 0, 0.95);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #ffffff;
+      --bg-secondary: #fafafa;
+      --bg-tertiary: #f5f5f5;
+      --bg-card: #f0f0f0;
+      --text-primary: #000000;
+      --text-secondary: #4d4d4d;
+      --text-muted: #999999;
+      --accent: #000000;
+      --border: rgba(0, 0, 0, 0.08);
+      --border-light: rgba(0, 0, 0, 0.12);
+      --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 20px 40px -5px rgba(0, 0, 0, 0.12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg-primary);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      color: var(--text-primary);
+      transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text h1 {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .brand-text p {
+      font-size: 15px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 14px 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      font-family: inherit;
+      letter-spacing: -0.01em;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: var(--bg-card);
+      border-color: var(--border-light);
+      transform: translateY(-1px);
+    }
+
+    .btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border: none;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--text-secondary);
+    }
+
+    .btn-icon {
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border-radius: var(--radius-md);
+      font-size: 20px;
+    }
+
+    .btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .btn-record {
+      padding: 18px 40px;
+      font-size: 16px;
+      font-weight: 600;
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border: none;
+      min-width: 280px;
+    }
+
+    .btn-record:hover:not(:disabled) {
+      background: var(--text-secondary);
+    }
+
+    .btn-record.recording {
+      animation: pulse-record 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes pulse-record {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+      50% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); }
+    }
+
+    [data-theme="light"] .btn-record.recording {
+      animation: pulse-record-light 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes pulse-record-light {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); }
+      50% { box-shadow: 0 0 0 20px rgba(0, 0, 0, 0); }
+    }
+
+    /* Mode Toggle */
+    .mode-toggle {
+      display: flex;
+      gap: 8px;
+      padding: 6px;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+
+    .mode-btn {
+      padding: 10px 24px;
+      background: transparent;
+      border: none;
+      border-radius: calc(var(--radius-md) - 4px);
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: inherit;
+      letter-spacing: -0.01em;
+    }
+
+    .mode-btn.active {
+      background: var(--text-primary);
+      color: var(--bg-primary);
+    }
+
+    /* Main Card */
+    .main-card {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-xl);
+      padding: 48px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+    }
+
+    /* Status Bar */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 28px;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-lg);
+      margin-bottom: 40px;
+      border: 1px solid var(--border);
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      transition: all 0.3s ease;
+    }
+
+    .status-dot.active {
+      background: var(--text-primary);
+      animation: blink 1.5s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Control Section */
+    .control-section {
+      margin-bottom: 40px;
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 40px;
+    }
+
+    .control-panel {
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      border: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .action-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .action-btn {
+      padding: 14px 20px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: inherit;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .action-btn:hover:not(:disabled) {
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border-color: var(--text-primary);
+    }
+
+    .action-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* Visualizer */
+    .visualizer {
+      height: 80px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding: 0 20px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-top: 24px;
+    }
+
+    .visualizer-bar {
+      width: 3px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: height 0.1s ease-out;
+      opacity: 0.2;
+    }
+
+    .visualizer.active .visualizer-bar {
+      opacity: 1;
+    }
+
+    /* Content Box */
+    .content-box {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      min-height: 200px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-primary);
+      position: relative;
+      overflow-y: auto;
+      max-height: 400px;
+    }
+
+    .content-box::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .content-box::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+      border-radius: 4px;
+    }
+
+    .content-box::-webkit-scrollbar-thumb {
+      background: var(--text-muted);
+      border-radius: 4px;
+    }
+
+    .content-box:hover {
+      border-color: var(--border-light);
+    }
+
+    .content-box.empty {
+      color: var(--text-muted);
+      font-style: italic;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .content-box.typing::after {
+      content: '▋';
+      animation: blink-cursor 1s step-end infinite;
+      margin-left: 3px;
+    }
+
+    @keyframes blink-cursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 40px;
+    }
+
+    .quick-btn {
+      padding: 16px 24px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: inherit;
+      letter-spacing: -0.01em;
+      text-align: center;
+    }
+
+    .quick-btn:hover {
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border-color: var(--text-primary);
+      transform: translateY(-2px);
+    }
+
+    /* Suggestions */
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .suggestion-chip {
+      padding: 10px 20px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: inherit;
+      letter-spacing: -0.01em;
+    }
+
+    .suggestion-chip:hover {
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      transform: translateY(-1px);
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .footer strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      font-weight: 500;
+    }
+
+    .footer a:hover {
+      color: var(--text-primary);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .control-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .quick-actions {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 24px 16px;
+      }
+
+      .header {
+        flex-direction: column;
+        gap: 24px;
+        align-items: flex-start;
+        margin-bottom: 32px;
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .main-card {
+        padding: 28px;
+      }
+
+      .control-grid {
+        gap: 20px;
+      }
+
+      .action-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .btn-record {
+        min-width: auto;
+        width: 100%;
+      }
+
+      .footer {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="brand">
+        <div class="brand-icon">Y</div>
+        <div class="brand-text">
+          <h1>Yashvi Voice Bot</h1>
+          <p>AI-Powered Interview Assistant</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="mode-toggle">
+          <button class="mode-btn active" id="mode-interview">Interview</button>
+          <button class="mode-btn" id="mode-casual">Casual</button>
+        </div>
+        <button class="btn btn-icon" id="themeToggle" title="Toggle theme">
+          <span id="themeIcon">☀</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Card -->
+    <div class="main-card">
+      <!-- Status Bar -->
+      <div class="status-bar">
+        <div class="status-indicator">
+          <div class="status-dot" id="statusDot"></div>
+          <span id="statusText">Ready to start</span>
+        </div>
+        <div style="font-size: 14px; color: var(--text-muted); font-weight: 500;" id="sessionInfo">Session ready</div>
+      </div>
+
+      <!-- Control Grid -->
+      <div class="control-grid">
+        <!-- Left: Voice Control -->
+        <div class="control-panel">
+          <div class="section-title">Voice Control</div>
+          <button class="btn btn-record" id="recordBtn">
+            <span style="font-size: 18px;">●</span>
+            Start Recording
+          </button>
+          
+          <div class="action-buttons">
+            <button class="action-btn" id="stopBtn" disabled>
+              <span>■</span>
+              Stop
+            </button>
+            <button class="action-btn" id="stopVoiceBtn">
+              <span>⊗</span>
+              Mute
+            </button>
+          </div>
+
+          <div class="visualizer" id="visualizer"></div>
+        </div>
+
+        <!-- Right: Actions -->
+        <div class="control-panel">
+          <div class="section-title">Actions</div>
+          <button class="btn btn-primary" id="sendTextBtn" style="width: 100%;">
+            <span>→</span>
+            Send
+          </button>
+          
+          <div class="action-buttons">
+            <button class="action-btn" id="copyBtn">
+              <span>⎘</span>
+              Copy
+            </button>
+            <button class="action-btn" id="downloadBtn">
+              <span>↓</span>
+              Save
+            </button>
+          </div>
+
+          <div class="visualizer" style="visibility: hidden;"></div>
+        </div>
+      </div>
+
+      <!-- Content Sections -->
+      <div class="control-section">
+        <div class="section-title">Your Question</div>
+        <div class="content-box empty" id="transcript">
+          Click "Start Recording" and ask your question...
+        </div>
+      </div>
+
+      <div class="control-section">
+        <div class="section-title">Yashvi's Response</div>
+        <div class="content-box empty" id="assistant">
+          Response will appear here...
+        </div>
+        <div class="suggestions" id="suggestions"></div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <button class="quick-btn" id="whyHire">Why hire me?</button>
+        <button class="quick-btn" id="topProject">Top project</button>
+        <button class="quick-btn" id="interviewChecklist">Interview checklist</button>
+        <button class="quick-btn" id="clearBtn">Clear conversation</button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div>
+        <strong>Yashvi Vekariya</strong> — AI Engineer & Developer
+      </div>
+      <div>
+        <div class="footer">
+  <div>
+    <a href="https://github.com/Yashvi-Vekariya" target="_blank">GitHub</a> • 
+    <a href="https://www.yashviivekariya.site" target="_blank">Portfolio</a> • 
+    <a href="https://www.linkedin.com/in/yashvi-vekariya" target="_blank">LinkedIn</a>
+  </div>
+</div>
+
+  <script>
+    const API_BASE = "http://localhost:8080";
+    const sessionId = (() => {
+      let sid = null;
+      try {
+        sid = sessionStorage.getItem("sessionId");
+      } catch (e) {}
+      if (!sid) {
+        sid = 's-' + Math.random().toString(36).slice(2, 9);
+        try {
+          sessionStorage.setItem('sessionId', sid);
+        } catch (e) {}
+      }
+      return sid;
+    })();
+
+    let mode = "interview";
+    let isRecording = false;
+    let recognition = null;
+    let synthUtter = null;
+    let visualizerInterval = null;
+
+    const recordBtn = document.getElementById("recordBtn");
+    const stopBtn = document.getElementById("stopBtn");
+    const transcriptEl = document.getElementById("transcript");
+    const assistantEl = document.getElementById("assistant");
+    const statusText = document.getElementById("statusText");
+    const statusDot = document.getElementById("statusDot");
+    const suggestionsEl = document.getElementById("suggestions");
+    const visualizer = document.getElementById("visualizer");
+    const whyHire = document.getElementById("whyHire");
+    const topProject = document.getElementById("topProject");
+    const interviewChecklist = document.getElementById("interviewChecklist");
+    const copyBtn = document.getElementById("copyBtn");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const sendTextBtn = document.getElementById("sendTextBtn");
+    const stopVoiceBtn = document.getElementById("stopVoiceBtn");
+    const modeInterviewBtn = document.getElementById("mode-interview");
+    const modeCasualBtn = document.getElementById("mode-casual");
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+
+    let currentTheme = 'dark';
+    
+    function applyTheme(theme) {
+      currentTheme = theme;
+      document.body.setAttribute('data-theme', currentTheme);
+      themeIcon.textContent = currentTheme === 'dark' ? '☀' : '☾';
+      try {
+        sessionStorage.setItem('theme', currentTheme);
+      } catch (e) {}
+    }
+
+    themeToggle.onclick = () => {
+      applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    };
+
+    try {
+      const savedTheme = sessionStorage.getItem('theme');
+      if (savedTheme) {
+        applyTheme(savedTheme);
+      }
+    } catch (e) {}
+
+    function setMode(m) {
+      mode = m;
+      modeInterviewBtn.classList.toggle('active', m === 'interview');
+      modeCasualBtn.classList.toggle('active', m === 'casual');
+    }
+
+    modeInterviewBtn.onclick = () => setMode('interview');
+    modeCasualBtn.onclick = () => setMode('casual');
+
+    function updateStatus(text, active = false) {
+      statusText.textContent = text;
+      statusDot.classList.toggle('active', active);
+    }
+
+    function initVisualizer() {
+      visualizer.innerHTML = '';
+      for (let i = 0; i < 50; i++) {
+        const bar = document.createElement('div');
+        bar.className = 'visualizer-bar';
+        bar.style.height = '20px';
+        visualizer.appendChild(bar);
+      }
+    }
+
+    function startVisualizer() {
+      visualizer.classList.add('active');
+      const bars = visualizer.querySelectorAll('.visualizer-bar');
+      visualizerInterval = setInterval(() => {
+        bars.forEach(bar => {
+          const height = Math.random() * 60 + 10;
+          bar.style.height = height + 'px';
+        });
+      }, 80);
+    }
+
+    function stopVisualizer() {
+      visualizer.classList.remove('active');
+      if (visualizerInterval) {
+        clearInterval(visualizerInterval);
+        visualizerInterval = null;
+      }
+      const bars = visualizer.querySelectorAll('.visualizer-bar');
+      bars.forEach(bar => {
+        bar.style.height = '20px';
+      });
+    }
+
+    async function initRecognition() {
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        updateStatus('Speech recognition not available');
+        recordBtn.disabled = true;
+        return;
+      }
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = () => {
+        isRecording = true;
+        updateStatus('Listening...', true);
+        recordBtn.classList.add('recording');
+        recordBtn.disabled = true;
+        stopBtn.disabled = false;
+        recordBtn.innerHTML = '<span style="font-size: 18px;">●</span> Recording...';
+        startVisualizer();
+      };
+
+      recognition.onresult = (e) => {
+        const text = e.results[0][0].transcript;
+        transcriptEl.textContent = text;
+        transcriptEl.classList.remove('empty');
+        sendText(text);
+      };
+
+      recognition.onerror = (e) => {
+        console.error("Recognition error", e);
+        updateStatus('Error: ' + e.error, false);
+        resetRecordingUI();
+      };
+
+      recognition.onend = () => {
+        isRecording = false;
+        resetRecordingUI();
+        if (statusText.textContent === 'Listening...') {
+          updateStatus('Ready to start', false);
+        }
+      };
+    }
+
+    function resetRecordingUI() {
+      recordBtn.classList.remove('recording');
+      recordBtn.disabled = false;
+      stopBtn.disabled = true;
+      recordBtn.innerHTML = '<span style="font-size: 18px;">●</span> Start Recording';
+      stopVisualizer();
+    }
+
+    function speakText(text) {
+      if (!window.speechSynthesis) return;
+      
+      window.speechSynthesis.cancel();
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      
+      utterance.onstart = () => {
+        updateStatus('Speaking...', true);
+        synthUtter = utterance;
+      };
+      
+      utterance.onend = () => {
+        updateStatus('Ready to start', false);
+        synthUtter = null;
+      };
+      
+      utterance.onerror = (e) => {
+        console.error('Speech synthesis error:', e);
+        updateStatus('Speech error', false);
+        synthUtter = null;
+      };
+      
+      synthUtter = utterance;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function stopSpeaking() {
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+        synthUtter = null;
+        updateStatus('Speech stopped', false);
+      }
+    }
+
+    async function sendText(text) {
+      if (!text || text.trim() === '') {
+        updateStatus('Please enter a question', false);
+        return;
+      }
+
+      updateStatus('Thinking...', true);
+      assistantEl.textContent = '';
+      assistantEl.classList.add('typing');
+      suggestionsEl.innerHTML = '';
+
+      try {
+        transcriptEl.textContent = text;
+        transcriptEl.classList.remove('empty');
+
+        const resp = await fetch(API_BASE + "/api/chat", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ userText: text, sessionId, mode })
+        });
+
+        const data = await resp.json();
+        assistantEl.classList.remove('typing');
+
+        if (resp.status !== 200) {
+          assistantEl.textContent = data?.error?.message || 'An error occurred';
+          assistantEl.classList.remove('empty');
+          updateStatus('Error', false);
+          return;
+        }
+
+        assistantEl.textContent = data.text;
+        assistantEl.classList.remove('empty');
+        speakText(data.text);
+
+        fetchSuggestions(data.text);
+                fetchSuggestions(data.text);
+        saveConversation(text, data.text);
+        updateStatus('Ready to start', false);
+      } catch (err) {
+        console.error(err);
+        assistantEl.textContent = 'Connection error. Please check if the server is running.';
+        assistantEl.classList.remove('empty', 'typing');
+        updateStatus('Connection failed', false);
+      }
+    }
+
+    async function fetchSuggestions(text) {
+      try {
+        const resp = await fetch(API_BASE + "/api/suggestions", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ text })
+        });
+        const data = await resp.json();
+        if (data.suggestions && data.suggestions.length > 0) {
+          suggestionsEl.innerHTML = '';
+          data.suggestions.forEach(s => {
+            const chip = document.createElement('button');
+            chip.className = 'suggestion-chip';
+            chip.textContent = s;
+            chip.onclick = () => {
+              transcriptEl.textContent = s;
+              transcriptEl.classList.remove('empty');
+              sendText(s);
+            };
+            suggestionsEl.appendChild(chip);
+          });
+        }
+      } catch (err) {
+        console.error('Failed to fetch suggestions', err);
+      }
+    }
+
+    function saveConversation(userText, botText) {
+      try {
+        const key = 'conversation_' + sessionId;
+        let history = [];
+        try {
+          const stored = sessionStorage.getItem(key);
+          if (stored) history = JSON.parse(stored);
+        } catch (e) {}
+        
+        history.push({
+          timestamp: new Date().toISOString(),
+          user: userText,
+          bot: botText
+        });
+        
+        if (history.length > 50) {
+          history = history.slice(-50);
+        }
+        
+        try {
+          sessionStorage.setItem(key, JSON.stringify(history));
+        } catch (e) {}
+      } catch (err) {
+        console.error('Failed to save conversation', err);
+      }
+    }
+
+    recordBtn.onclick = () => {
+      if (recognition) {
+        try {
+          recognition.start();
+        } catch (err) {
+          console.error('Failed to start recognition', err);
+          updateStatus('Microphone access denied', false);
+        }
+      }
+    };
+
+    stopBtn.onclick = () => {
+      if (recognition && isRecording) {
+        recognition.stop();
+      }
+    };
+
+    stopVoiceBtn.onclick = () => {
+      stopSpeaking();
+    };
+
+    sendTextBtn.onclick = () => {
+      const text = transcriptEl.textContent;
+      if (text && !transcriptEl.classList.contains('empty')) {
+        sendText(text);
+      } else {
+        const userInput = prompt('Enter your question:');
+        if (userInput && userInput.trim()) {
+          sendText(userInput.trim());
+        }
+      }
+    };
+
+    copyBtn.onclick = () => {
+      const text = assistantEl.textContent;
+      if (text && !assistantEl.classList.contains('empty')) {
+        navigator.clipboard.writeText(text).then(() => {
+          const originalText = copyBtn.innerHTML;
+          copyBtn.innerHTML = '<span>✓</span> Copied';
+          setTimeout(() => {
+            copyBtn.innerHTML = originalText;
+          }, 2000);
+        }).catch(err => {
+          console.error('Failed to copy', err);
+        });
+      }
+    };
+
+    downloadBtn.onclick = () => {
+      try {
+        const key = 'conversation_' + sessionId;
+        let history = [];
+        try {
+          const stored = sessionStorage.getItem(key);
+          if (stored) history = JSON.parse(stored);
+        } catch (e) {}
+        
+        if (history.length === 0) {
+          alert('No conversation to save');
+          return;
+        }
+
+        let content = '# Yashvi Voice Bot - Conversation History\n\n';
+        content += `Session: ${sessionId}\n`;
+        content += `Mode: ${mode}\n`;
+        content += `Date: ${new Date().toLocaleString()}\n\n`;
+        content += '---\n\n';
+
+        history.forEach((entry, idx) => {
+          content += `## Exchange ${idx + 1}\n\n`;
+          content += `**You:** ${entry.user}\n\n`;
+          content += `**Yashvi:** ${entry.bot}\n\n`;
+          content += `*Time: ${new Date(entry.timestamp).toLocaleString()}*\n\n`;
+          content += '---\n\n';
+        });
+
+        const blob = new Blob([content], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `yashvi-conversation-${sessionId}-${Date.now()}.md`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        const originalText = downloadBtn.innerHTML;
+        downloadBtn.innerHTML = '<span>✓</span> Saved';
+        setTimeout(() => {
+          downloadBtn.innerHTML = originalText;
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to download', err);
+        alert('Failed to save conversation');
+      }
+    };
+
+    clearBtn.onclick = () => {
+      if (confirm('Clear the current conversation?')) {
+        transcriptEl.textContent = 'Click "Start Recording" and ask your question...';
+        transcriptEl.classList.add('empty');
+        assistantEl.textContent = 'Response will appear here...';
+        assistantEl.classList.add('empty');
+        suggestionsEl.innerHTML = '';
+        
+        try {
+          const key = 'conversation_' + sessionId;
+          sessionStorage.removeItem(key);
+        } catch (e) {}
+        
+        updateStatus('Ready to start', false);
+      }
+    };
+
+    whyHire.onclick = () => {
+      const text = 'Why should we hire you?';
+      transcriptEl.textContent = text;
+      transcriptEl.classList.remove('empty');
+      sendText(text);
+    };
+
+    topProject.onclick = () => {
+      const text = 'Tell me about your top project';
+      transcriptEl.textContent = text;
+      transcriptEl.classList.remove('empty');
+      sendText(text);
+    };
+
+    interviewChecklist.onclick = () => {
+      const text = 'Give me a quick interview preparation checklist';
+      transcriptEl.textContent = text;
+      transcriptEl.classList.remove('empty');
+      sendText(text);
+    };
+
+    // Initialize
+    initVisualizer();
+    initRecognition();
+    updateStatus('Ready to start', false);
+    
+    console.log('Yashvi Voice Bot initialized');
+    console.log('Session ID:', sessionId);
+    console.log('Mode:', mode);
+  </script>
+</body>
+</html>
